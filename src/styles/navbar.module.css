@@ -1,0 +1,33 @@
+.navbar {
+    width: 100%;
+    border-bottom: 1px solid #fff;
+    background: #fff;
+    display: flex;
+    height: 80px;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 6;
+}
+
+.nav_center {
+    flex: none;
+    margin-left: 50px;
+}
+.nav_center h1 {
+    color: #000;
+}
+
+.nav_links {
+    margin-left: auto;
+    margin-right: 80px;
+}
+
+.nav_links li {
+    list-style: none;
+    margin-left: 50px;
+    float: left;
+}
+.nav_links li a {
+    color: #000;
+}

@@ -1,0 +1,38 @@
+.detail_page {
+    background: #000;
+    text-align: center;
+    padding: 150px 100px;
+    position: relative;
+}
+
+.detail_page img {
+    width: 50%;
+}
+
+.detail_page h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 50px;
+    font-size: 2rem;
+}
+
+.detail_page p {
+    padding: 0 15%;
+    color: #fff;
+    margin-top: 50px;
+}
+
+.overview {
+    line-height: 1.5;
+    font-size: 1.2rem;
+    margin-bottom: 50px;
+}
+
+.back a {
+    display: inline-block;
+    color: #fff;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 5%;
+    top: 5%;
+}
