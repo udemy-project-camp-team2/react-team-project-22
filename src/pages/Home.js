@@ -30,7 +30,7 @@ function Home () {
 
     return (
         <div className={styles.movie_list}>
-            {movies.map((movie)=>
+            {movies && movies.length > 0 && movies.map((movie)=>
                 <div key={movie.id}  onClick={onClick}>
                     <Link  to={`/${movie.id}`}>
                         <img title={movie.title} id={movie.id} src={movie.backdrop_path && `https://image.tmdb.org/t/p/original${movie.backdrop_path}`} alt="mo"/>
