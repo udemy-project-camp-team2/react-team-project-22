@@ -1,28 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "../styles/home.module.css";
 import { Link } from "react-router-dom";
+import { useFetchMoives } from "../hooks/useFetchMovies";
+import { useSearch } from "../hooks/useSearch";
 
 const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`;
 
 function Home() {
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    async function movieas() {
-      const response = await fetch(url);
-      const movieas = await response.json();
-
-      setMovies(movieas.results);
-    }
-
-    movieas();
-  }, []);
+    const {data:movies, loading,error} = useFetchMoives(url)
+    const {onChange, searchMovies} = useSearch('')
+    const filteredMovies = movies && movies.results.length > 0 && movies.results.filter((item) => item.title.toLowerCase().includes(searchMovies.trim().toLowerCase()) )
 
   return (
+    <>
+    <div>
+        <input type="text" value={searchMovies} onChange={onChange}/>
+    </div>
+    {error && <div>{error}</div>}
+    {loading && <div>loading...</div>}
     <div className={styles.movie_list}>
-      {movies &&
-        movies.length > 0 &&
-        movies.map((movie) => (
+      {filteredMovies?.map((movie) => (
           <div key={movie.id}>
             <Link to={`/${movie.id}`}>
               <img
@@ -39,6 +36,7 @@ function Home() {
           </div>
         ))}
     </div>
+    </>
   );
 }
 

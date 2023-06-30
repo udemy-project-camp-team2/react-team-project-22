@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import styles from "../styles/detail.module.css";
 import { Link } from "react-router-dom";
+import { useFetchMoives } from "../hooks/useFetchMovies";
 
 const MovieDetalis = () => {
-  const [detail, setDetail] = useState("");
+  
   const { movieid } = useParams();
   const url = `https://api.themoviedb.org/3/movie/${movieid}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`;
 
-  useEffect(() => {
-    async function movie_detail() {
-      const fetchUrl = await fetch(url);
-      const detailInfo = await fetchUrl.json();
 
-      setDetail(detailInfo);
-    }
+  const {data:detail, loading ,error} = useFetchMoives(url);
 
-    movie_detail();
-  }, []);
-
+  if(loading) return <p>loading...</p>
+  if(error) return <p>{error}</p>
+  
   return (
     <div className={styles.detail_page}>
       <span className={styles.back}>
