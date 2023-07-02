@@ -1,0 +1,21 @@
+.fav__container {
+  margin: 0 auto;
+  width: 80%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.fav__lists {
+  margin: 0 2rem;
+}
+
+.img {
+  width: 100%;
+  display: block;
+}
+
+.fav__lists h3 {
+  color: #fff;
+  text-align: center;
+}

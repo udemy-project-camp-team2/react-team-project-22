@@ -1,42 +1,69 @@
-import React from "react";
+import { Fragment, useContext } from "react";
 import styles from "../styles/home.module.css";
 import { Link } from "react-router-dom";
 import { useFetchMoives } from "../hooks/useFetchMovies";
 import { useSearch } from "../hooks/useSearch";
+import { FavoriteContext } from "../context/FavoriteContext";
+import { usePagination } from "../hooks/usePagination";
 
 const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`;
 
 function Home() {
-    const {data:movies, loading,error} = useFetchMoives(url)
-    const {onChange, searchMovies} = useSearch('')
-    const filteredMovies = movies && movies.results.length > 0 && movies.results.filter((item) => item.title.toLowerCase().includes(searchMovies.trim().toLowerCase()) )
+  const { data: movies, loading, error } = useFetchMoives(url);
+  const { filteredMovies, onChange, searchMovies } = useSearch(movies);
+  const { handleFavorites } = useContext(FavoriteContext);
+  const { paginateHandler, limit, offset, page } = usePagination(searchMovies);
 
   return (
-    <>
-    <div>
-        <input type="text" value={searchMovies} onChange={onChange}/>
-    </div>
-    {error && <div>{error}</div>}
-    {loading && <div>loading...</div>}
-    <div className={styles.movie_list}>
-      {filteredMovies?.map((movie) => (
-          <div key={movie.id}>
-            <Link to={`/${movie.id}`}>
-              <img
-                title={movie.title}
-                id={movie.id}
-                src={
-                  movie.backdrop_path &&
-                  `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
-                }
-                alt="mo"
-              />
-              <p>{movie.title}</p>
-            </Link>
+    <Fragment>
+      <div>
+        <input type="text" value={searchMovies} onChange={onChange} />
+      </div>
+      {error && <div>{error}</div>}
+      {loading && <div>loading...</div>}
+
+      {filteredMovies?.length === 0 ? (
+        <p style={{ textAlign: "center" }}>No Lists</p>
+      ) : (
+        <Fragment>
+          <div className={styles.movie_list}>
+            {filteredMovies?.slice(offset, offset + limit).map((movie) => (
+              <div key={movie.id}>
+                <Link to={`/${movie.id}`}>
+                  <img
+                    title={movie.title}
+                    id={movie.id}
+                    src={
+                      movie.backdrop_path &&
+                      `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+                    }
+                    alt="mo"
+                  />
+                  <p>{movie.title}</p>
+                </Link>
+                <button onClick={() => handleFavorites(movie)}>좋아요</button>
+              </div>
+            ))}
           </div>
-        ))}
-    </div>
-    </>
+          <div className={styles.pagination__container}>
+            {Array.from(
+              { length: Math.ceil(filteredMovies?.length / limit) },
+              (_, i) => i + 1,
+            ).map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => paginateHandler(item)}
+                className={styles.pagination__buttons}
+                aria-current={page === item ? "page" : null}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        </Fragment>
+      )}
+    </Fragment>
   );
 }
 
