@@ -6,9 +6,12 @@ export const useFetchMoives = (url) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     async function movieas() {
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          signal: controller.signal,
+        });
         if (!response.ok) {
           throw new Error("Error 발생");
         }
@@ -23,6 +26,8 @@ export const useFetchMoives = (url) => {
       }
     }
     movieas();
+
+    return () => controller.abort();
   }, [url]);
 
   return { data, loading, error };

@@ -1,10 +1,11 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
 import styles from "../styles/mylist.module.css";
-import { FavoriteContext } from "../context/FavoriteContext";
+import { useDispatch, useSelector } from "react-redux";
+import { onRemove } from "../store/slices/favoriteSlice";
 
 const MyList = () => {
-  const { favorites, handleFavorites } = useContext(FavoriteContext);
-
+  const favorites = useSelector((state) => state.favorite);
+  const dispatch = useDispatch();
   return (
     <Fragment>
       {favorites?.length === 0 ? (
@@ -19,7 +20,7 @@ const MyList = () => {
                 alt={fav.title}
               />
               <h3>{fav.title}</h3>
-              <button onClick={() => handleFavorites(fav)}>취소</button>
+              <button onClick={() => dispatch(onRemove(fav.id))}>취소</button>
             </li>
           ))}
         </ul>

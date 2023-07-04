@@ -1,18 +1,19 @@
-import { Fragment, useContext } from "react";
-import styles from "../styles/home.module.css";
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useFetchMoives } from "../hooks/useFetchMovies";
 import { useSearch } from "../hooks/useSearch";
-import { FavoriteContext } from "../context/FavoriteContext";
 import { usePagination } from "../hooks/usePagination";
+import { useDispatch } from "react-redux";
+import { onAdd } from "../store/slices/favoriteSlice";
+import styles from "../styles/home.module.css";
 
 const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`;
 
 function Home() {
   const { data: movies, loading, error } = useFetchMoives(url);
   const { filteredMovies, onChange, searchMovies } = useSearch(movies);
-  const { handleFavorites } = useContext(FavoriteContext);
   const { paginateHandler, limit, offset, page } = usePagination(searchMovies);
+  const dispatch = useDispatch();
 
   return (
     <Fragment>
@@ -41,7 +42,7 @@ function Home() {
                   />
                   <p>{movie.title}</p>
                 </Link>
-                <button onClick={() => handleFavorites(movie)}>좋아요</button>
+                <button onClick={() => dispatch(onAdd(movie))}>좋아요</button>
               </div>
             ))}
           </div>
