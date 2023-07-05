@@ -1,0 +1,29 @@
+.pageNumbers {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.pageNumbers li {
+    float: left;
+    list-style: none;
+    padding: 3px 10px;
+    color: #fff;
+    margin-left: 3px;
+    cursor: pointer;
+    line-height: 20px;
+}
+
+.pageNumbers li:first-child {
+    margin-left: 0;
+}
+
+li button {
+    padding: 0 5px;
+    line-height: 16px;
+    cursor: pointer;
+}
+
+.pageNumbers .active {
+    background: #fff;
+    color: #000;
+}
