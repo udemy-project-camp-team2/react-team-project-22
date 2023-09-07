@@ -4,6 +4,8 @@
 
 [결과물](https://celadon-yeot-c9c2cd.netlify.app/)
 
+영화 API를 활용한 영화 리스트사이트
+
 
 ### 🔔 화면 
 **초기 화면**
